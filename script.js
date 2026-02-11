@@ -37,7 +37,7 @@ function renderMilestones(){
 
   wrap.innerHTML = `
     <span class="emoji">${m.emoji}</span>
-    <div class="line" style="background:${m.color}"></div>
+    ${m.at !== MAX ? `<div class="line" style="background:${m.color}"></div>` : ``}
     ${m.at !== MAX ? `<div class="label">${m.at}</div>` : ``}
   `;
 
