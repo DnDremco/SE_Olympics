@@ -22,7 +22,7 @@ body{
   display: grid;
   justify-items: center;
   align-content: start;
-  padding-top: 30px;  /* card hoger op de pagina */
+  padding-top: 10px;  /* card hoger op de pagina */
   background: var(--bg);
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   color: var(--text);
