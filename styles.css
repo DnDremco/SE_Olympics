@@ -159,3 +159,11 @@ code{
 .milestones{
   z-index: 3;       /* milestones bovenop */
 }
+
+.milestone:last-child .emoji{
+  font-size: 38px;
+}
+
+.milestone:last-child{
+  top: 26px; /* schuif omlaag — pas aan naar smaak (bijv 20–34) */
+}
