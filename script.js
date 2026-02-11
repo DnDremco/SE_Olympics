@@ -44,15 +44,32 @@ function setProgress(points){
   const pc = percent(p);
 
   const fill = document.getElementById("fill");
-  const bubble = document.getElementById("bubble");
   const bar = document.querySelector(".bar");
 
+  const pill = document.getElementById("currentPill");
+  const text = document.getElementById("currentText");
+
   fill.style.width = `${pc}%`;
-  bubble.textContent = `${p} punten`;
-  bubble.style.left = `${pc}%`;
+  text.textContent = p; // alleen getal (kan ook `${p} punten`)
+
+  // Capsule positioneren: center op de huidige % plek,
+  // maar binnen de bar houden zodat hij niet buiten valt.
+  const barRect = bar.getBoundingClientRect();
+  const pillWidth = pill.offsetWidth || 60;
+
+  // px positie in de bar
+  let x = (pc / 100) * barRect.width;
+
+  // clamp zodat capsule niet buiten de bar gaat
+  const half = pillWidth / 2;
+  x = Math.max(half + 2, Math.min(barRect.width - half - 2, x));
+
+  // left in pixels binnen bar
+  pill.style.left = `${x}px`;
 
   bar.setAttribute("aria-valuenow", String(p));
 }
+
 
 async function loadPoints(){
   try{
