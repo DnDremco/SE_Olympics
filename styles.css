@@ -1,5 +1,5 @@
 :root{
-  --bg: #027bc9;           /* licht blauw */
+  --bg: #027bc9;            /* achtergrondkleur */
   --card: rgba(255,255,255,.75);
   --text: #0b2a3a;
 
@@ -15,13 +15,14 @@
 }
 
 *{ box-sizing: border-box; }
+
 body{
   margin: 0;
   min-height: 100vh;
   display: grid;
   justify-items: center;
   align-content: start;
-  padding-top: 2cm;   /* ~2 cm hoger */
+  padding-top: 30px;  /* card hoger op de pagina */
   background: var(--bg);
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   color: var(--text);
@@ -39,6 +40,7 @@ body{
 h1{ margin: 0 0 8px; font-size: 28px; }
 .sub{ margin: 0 0 22px; opacity: .85; }
 
+/* Progress */
 .progress-wrap{
   position: relative;
   padding-top: 46px; /* ruimte voor emojis boven milestones */
@@ -46,6 +48,7 @@ h1{ margin: 0 0 8px; font-size: 28px; }
 
 .bar{
   position: relative;
+  z-index: 1; /* onder milestones */
   height: 22px;
   width: 100%;
   background: var(--bar);
@@ -54,6 +57,8 @@ h1{ margin: 0 0 8px; font-size: 28px; }
 }
 
 .fill{
+  position: relative;
+  z-index: 1; /* blijft onder milestone-lijnen */
   height: 100%;
   width: 0%;
   background: var(--fill);
@@ -86,13 +91,15 @@ h1{ margin: 0 0 8px; font-size: 28px; }
   border-top: 8px solid white;
 }
 
+/* Milestones overlay */
 .milestones{
   position: absolute;
   left: 0;
   right: 0;
-  top: 0;
-  height: 64px;
+  top: 6px;          /* iets omlaag zodat lijn over bar valt */
+  height: 80px;      /* ruimte voor emoji + lijn + label */
   pointer-events: none;
+  z-index: 3;        /* boven de bar/fill */
 }
 
 .milestone{
@@ -112,18 +119,18 @@ h1{ margin: 0 0 8px; font-size: 28px; }
 }
 
 .milestone .line{
-  height: 48px;
-  width: 5px;
+  height: 52px;      /* lang genoeg om over bar te lopen */
+  width: 3px;
   margin: 0 auto;
   border-radius: 999px;
   opacity: .95;
 
-  border: 1px solid white;     /* ← dun wit randje */
+  border: 1px solid white;               /* dun wit randje */
   box-shadow: 0 0 0 1px rgba(0,0,0,.05); /* subtiel contrast */
 }
 
 .milestone .label{
-  margin-top: 20px;
+  margin-top: 14px;  /* verder naar beneden */
   font-size: 11px;
   opacity: .75;
 }
@@ -148,24 +155,19 @@ code{
   border-radius: 8px;
 }
 
-.bar{
-  position: relative;
-  z-index: 1;       /* basislaag */
+/* Mobiel: labels iets verder omlaag/kleiner zodat ze niet botsen */
+@media (max-width: 480px){
+  .milestone .label{
+    margin-top: 18px;
+    font-size: 10px;
+  }
 }
 
-.fill{
-  position: relative;
-  z-index: 1;       /* blijft onder de milestones */
-}
-
-.milestones{
-  z-index: 3;       /* milestones bovenop */
-}
-
+/* Trofee (laatste milestone) groter en lager (half op de bar) */
 .milestone:last-child .emoji{
   font-size: 38px;
 }
 
 .milestone:last-child{
-  top: 26px; /* schuif omlaag — pas aan naar smaak (bijv 20–34) */
+  top: 26px; /* schuif trofee omlaag — pas aan naar smaak (20–34) */
 }
