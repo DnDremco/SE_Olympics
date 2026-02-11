@@ -22,14 +22,14 @@ body{
   display: flex;
   justify-content: center;   /* horizontaal centreren */
   align-items: flex-start;   /* bovenaan starten */
-  padding-top: 30px;         /* 👈 hier regel je de afstand */
+  padding-top: 0px;         /* 👈 hier regel je de afstand */
   background: var(--bg);
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   color: var(--text);
 }
 
 .card{
-  margin-top: 10px; /* pas aan: 80px, 2cm, etc. */
+  margin-top: 80px; /* pas aan: 80px, 2cm, etc. */
   margin-bottom: 10px;
   width: min(900px, 92vw);
   padding: 28px 24px 22px;
