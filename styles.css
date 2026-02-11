@@ -110,15 +110,18 @@ h1{ margin: 0 0 8px; font-size: 28px; }
 }
 
 .milestone .line{
-  height: 34px;
+  height: 48px;
   width: 3px;
   margin: 0 auto;
   border-radius: 999px;
   opacity: .95;
+
+  border: 1px solid white;     /* ← dun wit randje */
+  box-shadow: 0 0 0 1px rgba(0,0,0,.05); /* subtiel contrast */
 }
 
 .milestone .label{
-  margin-top: 6px;
+  margin-top: 10px;
   font-size: 11px;
   opacity: .75;
 }
