@@ -171,3 +171,42 @@ code{
 .milestone:last-child{
   top: 26px; /* schuif trofee omlaag — pas aan naar smaak (20–34) */
 }
+
+/* Capsule met huidige punten IN de balk */
+.current-pill{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: calc(22px - 4px);     /* bar is 22px hoog, 2px blauw boven + 2px onder zichtbaar */
+  padding: 0 10px;             /* ruimte links/rechts voor tekst */
+  min-width: 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: white;
+  border-radius: 999px;        /* capsule/slot-vorm */
+  box-shadow: 0 6px 14px rgba(0,0,0,.15);
+  z-index: 4;
+
+  font-weight: 800;
+  font-size: 12px;
+  color: var(--text);
+
+  /* glow/pulse */
+  animation: pillPulse 2s infinite;
+}
+
+/* subtiele blauwe rand binnen de capsule (past bij fill) */
+.current-pill{
+  outline: 2px solid rgba(31,163,255,.55);
+  outline-offset: -2px;
+}
+
+/* Glow animatie */
+@keyframes pillPulse{
+  0%   { box-shadow: 0 6px 14px rgba(0,0,0,.15), 0 0 0 0 rgba(255,255,255,.75); }
+  70%  { box-shadow: 0 6px 14px rgba(0,0,0,.15), 0 0 0 12px rgba(255,255,255,0); }
+  100% { box-shadow: 0 6px 14px rgba(0,0,0,.15), 0 0 0 0 rgba(255,255,255,0); }
+}
