@@ -45,7 +45,8 @@ h1{ margin: 0 0 8px; font-size: 28px; }
 /* Progress */
 .progress-wrap{
   position: relative;
-  padding-top: 46px; /* ruimte voor emojis boven milestones */
+  padding-top: 46px;
+  padding-bottom: 28px;   /* 👈 extra ruimte onder labels */
 }
 
 .bar{
@@ -99,7 +100,7 @@ h1{ margin: 0 0 8px; font-size: 28px; }
   left: 0;
   right: 0;
   top: 6px;          /* iets omlaag zodat lijn over bar valt */
-  height: 80px;      /* ruimte voor emoji + lijn + label */
+  height: 110px;      /* ruimte voor emoji + lijn + label */
   pointer-events: none;
   z-index: 3;        /* boven de bar/fill */
 }
