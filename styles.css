@@ -22,13 +22,14 @@ body{
   display: grid;
   justify-items: center;
   align-content: start;
-  padding-top: 60px;  /* card hoger op de pagina */
+  padding-top: 0px;  /* card hoger op de pagina */
   background: var(--bg);
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   color: var(--text);
 }
 
 .card{
+  margin-top: 30px; /* pas aan: 80px, 2cm, etc. */
   width: min(900px, 92vw);
   padding: 28px 24px 22px;
   background: var(--card);
@@ -176,7 +177,7 @@ code{
 .current-pill{
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translate(-50%, -50%);
   height: calc(22px - 4px);     /* bar is 22px hoog, 2px blauw boven + 2px onder zichtbaar */
   padding: 0 10px;             /* ruimte links/rechts voor tekst */
   min-width: 52px;
