@@ -35,11 +35,12 @@ function renderMilestones(){
     wrap.className = "milestone";
     wrap.style.left = `${x}%`;
 
-    wrap.innerHTML = `
-      <span class="emoji">${m.emoji}</span>
-      <div class="line" style="background:${m.color}"></div>
-      <div class="label">${m.at}</div>
-    `;
+  wrap.innerHTML = `
+    <span class="emoji">${m.emoji}</span>
+    <div class="line" style="background:${m.color}"></div>
+    ${m.at !== MAX ? `<div class="label">${m.at}</div>` : ``}
+  `;
+
     el.appendChild(wrap);
   });
 }
