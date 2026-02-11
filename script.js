@@ -1,20 +1,10 @@
 const MIN = 0;
 const MAX = 2000;
-const STEP = 200;
+const STEP = 400;
 
-// Emoji’s + kleuren per milestone (200, 400, ... 2000)
-const milestoneConfig = [
-  { at: 200,  emoji: "🌱", color: "var(--goalLine3)", label: "Warm-up" },
-  { at: 400,  emoji: "🔥", color: "var(--goalLine)",  label: "Lekker bezig" },
-  { at: 600,  emoji: "💪", color: "var(--goalLine2)", label: "Sterk" },
-  { at: 800,  emoji: "⚡", color: "var(--goalLine)",  label: "Boost" },
-  { at: 1000, emoji: "🏁", color: "var(--goalLine2)", label: "Halverwege" },
-  { at: 1200, emoji: "🚀", color: "var(--goalLine3)", label: "Gaan!" },
-  { at: 1400, emoji: "🧠", color: "var(--goalLine2)", label: "Focus" },
-  { at: 1600, emoji: "🌟", color: "var(--goalLine)",  label: "Top" },
-  { at: 1800, emoji: "👑", color: "var(--goalLine2)", label: "Bijna" },
-  { at: 2000, emoji: "🏆", color: "var(--goalLine3)", label: "Doel!" },
-];
+// Emoji’s voor de tussenmijlpalen (400, 800, 1200, 1600). 2000 wordt 🏆
+const emojis = ["💪","⚡","🚀","👑"];
+const colors = ["var(--goalLine)","var(--goalLine2)","var(--goalLine3)"];
 
 function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
 
@@ -26,23 +16,27 @@ function renderMilestones(){
   const el = document.getElementById("milestones");
   el.innerHTML = "";
 
-  // Als je liever automatisch elke 200 wil genereren:
-  // maar met emoji’s is handmatig vaak leuker, dus config hierboven.
-  milestoneConfig.forEach(m => {
-    const x = (m.at / MAX) * 100;
+  let emojiIndex = 0;
+
+  for(let at = STEP; at <= MAX; at += STEP){
+    const x = (at / MAX) * 100;
 
     const wrap = document.createElement("div");
     wrap.className = "milestone";
     wrap.style.left = `${x}%`;
 
-  wrap.innerHTML = `
-    <span class="emoji">${m.emoji}</span>
-    ${m.at !== MAX ? `<div class="line" style="background:${m.color}"></div>` : ``}
-    ${m.at !== MAX ? `<div class="label">${m.at}</div>` : ``}
-  `;
+    const isLast = at === MAX;
+
+    wrap.innerHTML = `
+      <span class="emoji">${isLast ? "🏆" : emojis[emojiIndex % emojis.length]}</span>
+      ${!isLast ? `<div class="line" style="background:${colors[emojiIndex % colors.length]}"></div>` : ``}
+      ${!isLast ? `<div class="label">${at}</div>` : ``}
+    `;
+
+    if(!isLast) emojiIndex++;
 
     el.appendChild(wrap);
-  });
+  }
 }
 
 function setProgress(points){
@@ -67,7 +61,6 @@ async function loadPoints(){
     const points = Number(data.points ?? 0);
     setProgress(points);
   }catch(e){
-    // fallback als points.json ontbreekt
     setProgress(0);
   }
 }
