@@ -13,7 +13,7 @@ const milestoneConfig = [
   { at: 1400, emoji: "🧠", color: "var(--goalLine2)", label: "Focus" },
   { at: 1600, emoji: "🌟", color: "var(--goalLine)",  label: "Top" },
   { at: 1800, emoji: "👑", color: "var(--goalLine2)", label: "Bijna" },
-  { at: 2000, emoji: "🎉", color: "var(--goalLine3)", label: "Doel!" },
+  { at: 2000, emoji: "🏆", color: "var(--goalLine3)", label: "Doel!" },
 ];
 
 function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
