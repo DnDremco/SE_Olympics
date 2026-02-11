@@ -13,21 +13,28 @@
       Doel: <strong>2000</strong> punten.
     </p>
 
-    <section class="progress-wrap" aria-label="Voortgang">
-      <div class="milestones" id="milestones" aria-hidden="true"></div>
+  <section class="progress-wrap" aria-label="Voortgang">
 
-      <div class="bar" role="progressbar"
-           aria-valuemin="0" aria-valuemax="2000" aria-valuenow="0"
-           aria-label="Punten voortgang">
-        <div class="fill" id="fill"></div>
-        <div class="bubble" id="bubble">0</div>
+    <div class="bar" role="progressbar"
+         aria-valuemin="0"
+         aria-valuemax="2000"
+         aria-valuenow="0">
+
+      <div class="fill" id="fill"></div>
+  
+      <!-- Witte capsule met huidige punten -->
+      <div class="current-pill" id="currentPill">
+        <span id="currentText">0</span>
       </div>
 
-      <div class="scale">
-        <span>0</span>
-        <span>2000</span>
-      </div>
-    </section>
+    </div>
+
+    <div class="scale">
+      <span>0</span>
+      <span>2000</span>
+    </div>
+
+  </section>
 
     <p class="hint">
     </p>
