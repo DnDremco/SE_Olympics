@@ -111,7 +111,7 @@ h1{ margin: 0 0 8px; font-size: 28px; }
 
 .milestone .line{
   height: 48px;
-  width: 3px;
+  width: 5px;
   margin: 0 auto;
   border-radius: 999px;
   opacity: .95;
