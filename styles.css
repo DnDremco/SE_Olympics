@@ -178,10 +178,11 @@ code{
 /* Capsule met huidige punten IN de balk */
 .current-pill{
   position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  height: calc(22px - 4px);     /* bar is 22px hoog, 2px blauw boven + 2px onder zichtbaar */
-  padding: 0 10px;             /* ruimte links/rechts voor tekst */
+  /* top wordt door JS gezet, zodat dit altijd exact op de bar-hoogte klopt */
+  transform: translateY(-50%);
+
+  height: calc(22px - 4px);
+  padding: 0 10px;
   min-width: 52px;
 
   display: flex;
@@ -189,15 +190,16 @@ code{
   justify-content: center;
 
   background: white;
-  border-radius: 999px;        /* capsule/slot-vorm */
+  border-radius: 999px;
   box-shadow: 0 6px 14px rgba(0,0,0,.15);
-  z-index: 4;
+
+  z-index: 999;            /* ✅ altijd voor milestones */
+  pointer-events: none;    /* optioneel: pill “klikt” niet */
 
   font-weight: 800;
   font-size: 12px;
   color: var(--text);
 
-  /* glow/pulse */
   animation: pillPulse 2s infinite;
 }
 
