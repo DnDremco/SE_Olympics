@@ -119,11 +119,19 @@ async function loadPoints() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Teksten
   document.getElementById("goalText").textContent = MAX;
+  document.getElementById("scaleMin").textContent = MIN;
+  document.getElementById("scaleMax").textContent = MAX;
+
+  // ARIA (toegankelijkheid)
+  const bar = document.getElementById("bar");
+  bar.setAttribute("aria-valuemin", String(MIN));
+  bar.setAttribute("aria-valuemax", String(MAX));
+
   renderMilestones();
   loadPoints();
 
-  // Bij resize/rotatie pill opnieuw positioneren
   window.addEventListener("resize", () => {
     const current = Number(document.getElementById("currentText")?.textContent ?? 0);
     setProgress(current);
