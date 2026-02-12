@@ -119,6 +119,7 @@ async function loadPoints() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("goalText").textContent = MAX;
   renderMilestones();
   loadPoints();
 
