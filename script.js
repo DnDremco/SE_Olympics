@@ -1,6 +1,8 @@
 const MIN = 0;
-const MAX = 2500;
-const STEP = 500;
+const MAX = 2000;
+
+const MILESTONE_COUNT = 5;
+const STEP = MAX / MILESTONE_COUNT;
 
 // Emoji’s voor de tussenmijlpalen (400, 800, 1200, 1600). 2000 wordt 🏆
 const emojis = ["💪","⚡","🚀","👑"];
