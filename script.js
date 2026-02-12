@@ -65,7 +65,33 @@ function positionPill(pc) {
   pill.style.top = `${top}px`;
 }
 
-function setProgress(points) {
+function easeOutCubic(t) {
+  return 1 - Math.pow(1 - t, 3);
+}
+
+function animateProgressTo(targetPoints, durationMs = 3000) {
+  const start = performance.now();
+  const startPoints = 0;                 // bij load beginnen we vanaf 0
+  const endPoints = clamp(targetPoints, MIN, MAX);
+
+  function frame(now) {
+    const elapsed = now - start;
+    const t = clamp(elapsed / durationMs, 0, 1);
+    const eased = easeOutCubic(t);
+
+    const current = startPoints + (endPoints - startPoints) * eased;
+
+    // Belangrijk: geen nieuwe animation starten vanuit setProgress
+    setProgress(Math.round(current), { animate: false });
+
+    if (t < 1) requestAnimationFrame(frame);
+    else setProgress(endPoints, { animate: false }); // eindstand exact
+  }
+
+  requestAnimationFrame(frame);
+}
+
+function setProgress(points, opts = { animate: true }) {
   const p = clamp(points, MIN, MAX);
   const pc = percent(p);
 
@@ -77,7 +103,7 @@ function setProgress(points) {
   if (text) text.textContent = String(p);
   if (bar) bar.setAttribute("aria-valuenow", String(p));
 
-  // Positioneer pill pas na layout (zodat offsetWidth klopt)
+  // pill positioneren
   requestAnimationFrame(() => positionPill(pc));
 }
 
@@ -86,9 +112,9 @@ async function loadPoints() {
     const res = await fetch("points.json", { cache: "no-store" });
     const data = await res.json();
     const points = Number(data.points ?? 0);
-    setProgress(points);
+    animateProgressTo(points, 3000);
   } catch (e) {
-    setProgress(0);
+    animateProgressTo(0, 3000);
   }
 }
 
