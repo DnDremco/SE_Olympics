@@ -46,16 +46,23 @@ function positionPill(pc) {
   const pill = document.getElementById("currentPill");
   if (!bar || !pill) return;
 
-  const barW = bar.clientWidth;          // stabieler dan getBoundingClientRect voor width
+  const barW = bar.clientWidth;
   const pillW = pill.offsetWidth || 60;
 
-  let x = (pc / 100) * barW;
+  // eindpunt van de fill in pixels
+  const fillEnd = (pc / 100) * barW;
 
-  // clamp zodat capsule binnen de bar blijft
-  const half = pillW / 2;
-  x = clamp(x, half + 2, barW - half - 2);
+  // ✅ pill valt IN de fill: rechterkant 2px vóór fill-einde
+  let left = fillEnd - 2 - pillW;
 
-  pill.style.left = `${x}px`;
+  // clamp zodat pill altijd binnen de bar blijft (2px marge links/rechts)
+  left = clamp(left, 2, barW - pillW - 2);
+
+  // ✅ pill exact verticaal gecentreerd op de bar zetten
+  const top = bar.offsetTop + (bar.clientHeight / 2);
+
+  pill.style.left = `${left}px`;
+  pill.style.top = `${top}px`;
 }
 
 function setProgress(points) {
