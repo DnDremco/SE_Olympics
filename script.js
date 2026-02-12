@@ -1,5 +1,5 @@
 const MIN = 0;
-const MAX = 2000;
+const MAX = 2200;
 
 const MILESTONE_COUNT = 5;
 const STEP = MAX / MILESTONE_COUNT;
