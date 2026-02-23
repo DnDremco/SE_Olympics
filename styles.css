@@ -182,8 +182,8 @@ code{
   transform: translateY(-50%);
 
   height: calc(22px - 4px);
-  padding: 0 10px;
-  min-width: 56px;
+  padding: 0 14px;
+  min-width: 70px;
 
   display: flex;
   align-items: center;
