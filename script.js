@@ -4,7 +4,6 @@ const MAX = 2200;
 const MILESTONE_COUNT = 5;
 const STEP = MAX / MILESTONE_COUNT;
 
-// Emoji’s voor de tussenmijlpalen (400, 800, 1200, 1600). 2000 wordt 🏆
 const emojis = ["💪","⚡","🚀","👑"];
 const colors = ["var(--goalLine)", "var(--goalLine2)", "var(--goalLine3)"];
 
@@ -14,6 +13,10 @@ function clamp(n, min, max) {
 
 function percent(points) {
   return ((points - MIN) / (MAX - MIN)) * 100;
+}
+
+function easeOutCubic(t) {
+  return 1 - Math.pow(1 - t, 3);
 }
 
 function renderMilestones() {
@@ -51,62 +54,69 @@ function positionPill(pc) {
   const barW = bar.clientWidth;
   const pillW = pill.offsetWidth || 60;
 
-  // eindpunt van de fill in pixels
   const fillEnd = (pc / 100) * barW;
 
-  // ✅ pill valt IN de fill: rechterkant 2px vóór fill-einde
+  // pill binnen de fill: rechterkant 2px vóór fill-einde
   let left = fillEnd - 2 - pillW;
 
-  // clamp zodat pill altijd binnen de bar blijft (2px marge links/rechts)
+  // clamp binnen de bar (2px marge)
   left = clamp(left, 2, barW - pillW - 2);
 
-  // ✅ pill exact verticaal gecentreerd op de bar zetten
+  // verticaal centreren op de bar
   const top = bar.offsetTop + (bar.clientHeight / 2);
 
   pill.style.left = `${left}px`;
   pill.style.top = `${top}px`;
 }
 
-function easeOutCubic(t) {
-  return 1 - Math.pow(1 - t, 3);
-}
-
-function animateProgressTo(targetPoints, durationMs = 3000) {
-  const start = performance.now();
-  const startPoints = 0;                 // bij load beginnen we vanaf 0
-  const endPoints = clamp(targetPoints, MIN, MAX);
-
-  function frame(now) {
-    const elapsed = now - start;
-    const t = clamp(elapsed / durationMs, 0, 1);
-    const eased = easeOutCubic(t);
-
-    const current = startPoints + (endPoints - startPoints) * eased;
-
-    // Belangrijk: geen nieuwe animation starten vanuit setProgress
-    setProgress(Math.round(current), { animate: false });
-
-    if (t < 1) requestAnimationFrame(frame);
-    else setProgress(endPoints, { animate: false }); // eindstand exact
-  }
-
-  requestAnimationFrame(frame);
-}
-
-function setProgress(points, opts = { animate: true }) {
-  const p = clamp(points, MIN, MAX);
-  const pc = percent(p);
+function setProgress(points) {
+  const raw = Number(points) || 0;       // echte score (mag > MAX)
+  const progress = clamp(raw, MIN, MAX); // voor bar/positie
+  const pc = percent(progress);
 
   const fill = document.getElementById("fill");
   const text = document.getElementById("currentText");
   const bar = document.getElementById("bar");
 
   if (fill) fill.style.width = `${pc}%`;
-  if (text) text.textContent = String(p);
-  if (bar) bar.setAttribute("aria-valuenow", String(p));
 
-  // pill positioneren
+  // pill tekst: echte score (ook boven doel)
+  if (text) {
+    text.textContent = raw > MAX ? `${raw} 🔥` : String(raw);
+  }
+
+  // aria: progress = max zodra je over doel heen gaat
+  if (bar) bar.setAttribute("aria-valuenow", String(progress));
+
   requestAnimationFrame(() => positionPill(pc));
+}
+
+function animateProgressTo(targetPoints, durationMs = 3000) {
+  const endRaw = Number(targetPoints) || 0;
+  const endProgress = clamp(endRaw, MIN, MAX);
+
+  const start = performance.now();
+  const startPoints = 0;
+
+  function frame(now) {
+    const elapsed = now - start;
+    const t = clamp(elapsed / durationMs, 0, 1);
+    const eased = easeOutCubic(t);
+
+    const current = startPoints + (endProgress - startPoints) * eased;
+
+    // tijdens animatie loopt alles mee tot endProgress
+    setProgress(Math.round(current));
+
+    if (t < 1) {
+      requestAnimationFrame(frame);
+    } else {
+      // eindstand: bar op max, pill toont echte score
+      setProgress(endRaw);
+    }
+  }
+
+  requestAnimationFrame(frame);
 }
 
 async function loadPoints() {
@@ -122,14 +132,20 @@ async function loadPoints() {
 
 document.addEventListener("DOMContentLoaded", () => {
   // Teksten
-  document.getElementById("goalText").textContent = MAX;
-  document.getElementById("scaleMin").textContent = MIN;
-  document.getElementById("scaleMax").textContent = MAX;
+  const goalText = document.getElementById("goalText");
+  const scaleMin = document.getElementById("scaleMin");
+  const scaleMax = document.getElementById("scaleMax");
 
-  // ARIA (toegankelijkheid)
+  if (goalText) goalText.textContent = MAX;
+  if (scaleMin) scaleMin.textContent = MIN;
+  if (scaleMax) scaleMax.textContent = MAX;
+
+  // ARIA
   const bar = document.getElementById("bar");
-  bar.setAttribute("aria-valuemin", String(MIN));
-  bar.setAttribute("aria-valuemax", String(MAX));
+  if (bar) {
+    bar.setAttribute("aria-valuemin", String(MIN));
+    bar.setAttribute("aria-valuemax", String(MAX));
+  }
 
   renderMilestones();
   loadPoints();
